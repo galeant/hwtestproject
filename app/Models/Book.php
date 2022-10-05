@@ -20,6 +20,11 @@ class Book extends Model
         return $this->belongsToMany(User::class, 'rental', 'book_id', 'user_id')->withPivot('is_return');
     }
 
+    public function return()
+    {
+        return $this->belongsToMany(User::class, 'rental', 'book_id', 'user_id')->withPivot('is_return')->wherePivot('is_return', 1);
+    }
+
     public function category()
     {
         return $this->belongsTo(BookCategory::class, 'category_id', 'id');
@@ -50,17 +55,18 @@ class Book extends Model
 
     public function scopeSearch($q, $field, $keyword)
     {
-        $column = $this->getField();
-        if (is_array($field) && is_array($keyword)) {
-            $max = count($field);
-            if (count($keyword) > $max) {
-                $max = count($keyword);
-            }
-            for ($i = 0; $i < $max; $i++) {
-                if (in_array($field[$i], $column) && isset($field[$i]) && isset($keyword[$i])) {
-                    $q->where($field[$i], $keyword[$i]);
-                }
-            }
-        }
+        $q->where($field, $keyword);
+        // $column = $this->getField();
+        // if (is_array($field) && is_array($keyword)) {
+        //     $max = count($field);
+        //     if (count($keyword) > $max) {
+        //         $max = count($keyword);
+        //     }
+        //     for ($i = 0; $i < $max; $i++) {
+        //         if (in_array($field[$i], $column) && isset($field[$i]) && isset($keyword[$i])) {
+        //             $q->where($field[$i], $keyword[$i]);
+        //         }
+        //     }
+        // }
     }
 }

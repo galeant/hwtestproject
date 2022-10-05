@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rental', function (Blueprint $table) {
+        Schema::create('return', function (Blueprint $table) {
             $table->bigInteger('user_id');
             $table->bigInteger('book_id');
-            $table->boolean('is_return')->nullable()->dafault(0);
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rental');
+        Schema::dropIfExists('return');
     }
 };

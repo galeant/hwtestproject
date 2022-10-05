@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Book;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -56,5 +57,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function book()
+    {
+        return $this->belongsToMany(Book::class, 'rental', 'user_id', 'book_id')->withPivot('is_return');
+    }
+
+    public function return()
+    {
+        return $this->belongsToMany(Book::class, 'rental', 'user_id', 'book_id')->withPivot('is_return')->wherePivot('is_return', 1);
     }
 }

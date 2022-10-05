@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookCategoryController;
+use App\Http\Controllers\RentalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,10 @@ Route::group(['prefix' => 'book_category'], function () {
     Route::get('{id}', [BookCategoryController::class, 'detail']);
     Route::post('{id}/update', [BookCategoryController::class, 'update']);
     Route::delete('{id}/delete', [BookCategoryController::class, 'delete']);
+});
+
+Route::group(['prefix' => 'rental', 'middleware' => ['auth']], function () {
+    Route::get('/', [RentalController::class, 'list']);
+    Route::post('create', [RentalController::class, 'create']);
+    Route::post('return', [RentalController::class, 'return']);
 });
