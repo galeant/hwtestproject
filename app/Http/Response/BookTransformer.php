@@ -7,8 +7,8 @@ class BookTransformer
     public static function getList($data, $message = 'Success')
     {
         if ($data instanceof \Illuminate\Pagination\LengthAwarePaginator) {
-            $items = collect($data->items())->transform(function ($v) use ($access) {
-                return self::reform($v, 'index', $access);
+            $items = collect($data->items())->transform(function ($v) {
+                return self::reform($v);
             });
             $return = [
                 'data' => $items,
@@ -22,8 +22,8 @@ class BookTransformer
         } else {
 
             $return = [
-                'data' => $data->transform(function ($v) use ($access) {
-                    return self::reform($v, 'index', $access);
+                'data' => $data->transform(function ($v) {
+                    return self::reform($v);
                 }),
                 'total' => count($data)
             ];
@@ -36,16 +36,26 @@ class BookTransformer
 
     public static function getDetail($data, $message = 'Success')
     {
-        self::getAuth();
-        $access = self::$access;
 
         return response()->json([
             'message' => $message,
-            'result' => self::reform($data, 'detail', $access)
+            'result' => self::reform($data)
         ]);
     }
 
     private static function reform($data)
     {
+        return [
+            'id' => $data->id,
+            'serial_code' => $data->serial_code,
+            'title' => $data->title,
+            'qty' => $data->qty,
+            'category' => [
+                'id' => $data->category->id,
+                'name' => $data->category->slug,
+                'slug' => $data->category->name,
+
+            ]
+        ];
     }
 }

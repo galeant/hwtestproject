@@ -12,6 +12,11 @@ class BookCategory extends Model
     protected $table = 'book_category';
     protected $guarded = [];
 
+    public function book()
+    {
+        return $this->hasMany(Book::class, 'category_id', 'id');
+    }
+
     private function getField()
     {
         $table = $this->getTable();

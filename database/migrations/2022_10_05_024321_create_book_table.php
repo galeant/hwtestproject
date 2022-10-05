@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('book', function (Blueprint $table) {
             $table->id();
-            $tabls->bigInteger('category_id');
+            $table->bigInteger('category_id');
             $table->string('serial_code')->unique();
             $table->string('title');
             $table->string('creator');

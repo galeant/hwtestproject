@@ -13,7 +13,7 @@ class CreateBookRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class CreateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'serial_code' => 'required|unique:book,serial_code',
+            'title' => 'required',
+            'creator' => 'required',
+            'category_id' => 'required|exists:book_category,id',
         ];
     }
 }
